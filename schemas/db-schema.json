@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "title": "DatabaseSchema",
+  "properties": {
+    "user": {
+      "$ref": "schemas/collections/users.json"
+    },
+    "accessToken": {
+      "$ref": "schemas/collections/access-token.json"
+    },
+    "userInteraction": {
+      "$ref": "schemas/collections/user-interaction.json"
+    }
+  }
+}

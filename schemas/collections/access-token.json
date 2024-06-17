@@ -1,0 +1,32 @@
+{
+  "type": "object",
+  "title": "AccessTokens Collection",
+  "required": ["id", "userId", "status", "createdAt"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the access token"
+    },
+    "userId": {
+      "type": "string",
+      "description": "The identifier of the user associated with the access token"
+    },
+    "token": {
+      "type": "string",
+      "description": "The actual token"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["ACTIVE", "EXPIRED"],
+      "description": "The status of the access token, which can be either ACTIVE or EXPIRED"
+    },
+    "createdAt": {
+      "type": "string",
+      "description": "The timestamp or date string indicating when the access token was created"
+    },
+    "expiresAt": {
+      "type": "string",
+      "description": "An optional field representing the timestamp or date string indicating when the access token expires"
+    }
+  }
+}

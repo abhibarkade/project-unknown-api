@@ -1,0 +1,342 @@
+# Scalars
+scalar DateTime # Represents date and time values.
+scalar JSON
+
+# Interfaces
+"""
+Interface for response payloads containing a success flag.
+"""
+interface ResponsePayload {
+  success: Boolean! # Indicates whether the operation was successful.
+  context: String
+}
+
+# Enums
+"""
+Enum representing verification status of users or professionals.
+"""
+enum VerificationStatusType { # Player will be marked as verified when he or she adds any game to profile
+  UNVERIFIED_PLAYER # User or professional is not yet verified.
+  VERIFIED_PLAYER # User is verified as a player. 
+  VERIFIED_COACH
+  UNVERIFIED_COACH
+  VERIFIED_ESPORTS_PROFESSIONAL
+  UNVERIFIED_ESPORTS_PROFESSIONAL
+  ADMIN # Openly show that this account is admin or the cfo accounts :)
+}
+
+"""
+Enum representing authentication modes.
+"""
+enum AuthMode {
+  EMAIL_PASS # Email and password authentication.
+  PHONE_PASS # Phone number and password authentication.
+  GOOGLE # Google authentication.
+  FACEBOOK # Facebook authentication.
+  APPLE # Apple authentication.
+}
+
+"""
+Enum representing the status of an access token.
+"""
+enum TokenStatus {
+  ACTIVE # Token is currently active.
+  EXPIRED # Token has expired.
+}
+
+enum MediaType {
+  PROFILE_PICTURE
+  PROFILE_BANNER
+  HIGHLIGHT_IMAGE
+  HIGHLIGHT_VIDEO
+}
+
+# Represents account visibility
+enum AccountVisibilityType {
+  PUBLIC
+  PRIVATE
+}
+
+# Represents account state
+enum AccountStateType {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  DELETED
+}
+
+# how we interact with other account
+enum AccountInteractionType {
+  FOLLOW
+  UNFOLLOW
+  BLOCK
+}
+
+type UserInteraction {
+  id: ID!
+  actor: ID! # current user, if A wants to follow B, then actor is A
+  target: ID! # its B
+  actionType: AccountInteractionType! #defines action
+  createdAt: String!
+  updatedAt: String!
+}
+
+input UpdateUserConnectionInput {
+  actor: ID! # current user, if A wants to follow B, then actor is A
+  target: ID! # its B
+  actionType: AccountInteractionType! #defines action
+}
+
+type UpdateUserConnectionResponse implements ResponsePayload{
+  success: Boolean!
+  context: String!
+}
+
+enum GenderType {
+  MALE
+  FEMALE
+  PREFER_NOT_SAY
+}
+# Types
+"""
+Represents an achievement in a particular game.
+"""
+type Achievement {
+  id: ID! # Unique identifier for the achievement.
+  game: String! # Name of the game in which the achievement was earned.
+  title: String! # Title of the achievement.
+  description: String! # Description of the achievement.
+  dateAchieved: DateTime! # Date and time when the achievement was earned.
+}
+
+"""
+Represents a skill in a particular game.
+"""
+type Skill {
+  id: ID! # Unique identifier for the skill.
+  game: String! # Name of the game for which the skill is recorded.
+  skillType: String! # Type or category of the skill.
+  value: Float! # Numeric value representing the skill level.
+}
+
+"""
+Represents a highlight (e.g., screenshot, gameplay clip) in a user's profile.
+"""
+type Highlight {
+  id: ID! # Unique identifier for the highlight.
+  title: String! # Title or description of the highlight.
+  description: String # Additional description for the highlight (optional).
+  mediaURL: String! # URL to access the media content of the highlight.
+  createdAt: DateTime! # Date and time when the highlight was created.
+}
+
+"""
+Represents a team in the esports community.
+"""
+type Team {
+  id: ID! # Unique identifier for the team.
+  name: String! # Name of the team.
+  description: String # Description of the team (optional).
+  members: [User!]! # List of members belonging to the team.
+  createdAt: DateTime! # Date and time when the team was created.
+  updatedAt: DateTime! # Date and time when the team was last updated.
+}
+
+"""
+Represents a user in the esports community.
+"""
+type User {
+  id: ID! # Unique identifier for the user.
+  username: String! # Username of the user.
+  fullName: String! # Full name of the user.
+  accountState: AccountStateType!
+  accountVisibility: AccountVisibilityType!
+  profilePicture: String
+  profileBanner: String
+  phone: String # Phone number of the user (optional).
+  email: String # Email address of the user (optional).
+  password: String! # Password for the user account.
+  bio: String # Biography or profile description of the user (optional).
+  gender: GenderType # In future if orgs or teams want to search only female players
+  authMode: AuthMode! # Authentication mode of the user.
+  verificationStatus: VerificationStatusType! # Verification status of the user.
+  preferredGames: [ID!] # List of preferred games for the user.
+  achievements: [ID!] # List of achievements earned by the user.
+  skills: [ID!] # List of skills recorded for the user.
+  highlights: [ID!] # List of highlights in the user's profile.
+  teams: [ID!] # List of teams the user belongs to.
+  createdAt: DateTime # Date and time when the user account was created.
+  updatedAt: DateTime # Date and time when the user account was last updated.
+}
+
+
+
+"""
+Represents an access token for authentication.
+"""
+type AccessToken {
+  id: ID! # Unique identifier for the access token.
+  userId: ID! # ID of the user associated with the token.
+  status: TokenStatus! # Status of the token (active or expired).
+  token: String! # The token string.
+  createdAt: String! # Timestamp when the token was created.
+  expiresAt: String! # Timestamp when the token expires.
+}
+
+"""
+Payload returned by user-related mutations.
+"""
+type UserResponse implements ResponsePayload {
+  success: Boolean! # Indicates whether the user-related mutation was successful.
+  context: String! # Used to provide any message or to display errors
+  user: User # User object returned by the mutation (optional).
+}
+
+"""
+Response for checking if a username is duplicate.
+"""
+type CheckDuplicateUserResponse {
+  isDuplicate: Boolean! # Indicates whether the username is a duplicate.
+}
+
+type TokenPayloadInput {
+  id: String!
+  createdAt: String!
+}
+
+type RestParamsInput {
+  userId: String!
+  mediaType: MediaType!
+}
+
+input GraphQLRequestBody {
+  operationName: String
+  query: String
+  variables: JSON
+}
+
+"""
+Payload returned by sign-in mutation.
+"""
+type SignInResponse implements ResponsePayload {
+  success: Boolean! # Indicates whether the sign-in was successful.
+  context: String
+  token: String # Token generated after successful sign-in.
+}
+
+type MediaUploadResponse implements ResponsePayload {
+  success: Boolean! # Indicates whether the sign-in was successful.
+  context: String
+  fileUri: String # Token generated after successful sign-in.
+}
+
+
+# Inputs
+"""
+Input for creating a new user.
+"""
+input SignUpInput {
+  fullName: String! # Full name for the new user.
+  username: String! # Username for the new user.
+  phone: String # Phone number for the new user (optional).
+  email: String # Email address for the new user (optional).
+  password: String # Password for the new user.
+  gender: GenderType
+  authMode: AuthMode! # Authmode for creating or signing-up the new user.
+}
+
+"""
+Input for updating an existing user.
+"""
+input UpdateUserInput {
+  id: String! # ID of the user to be updated.
+  fullName: String # Updated full name for the user (optional).
+  username: String # Updated username for the user (optional).
+  phone: String # Updated phone number for the user (optional).
+  email: String # Updated email address for the user (optional).
+  password: String # Updated password for the user (optional).
+  bio: String # Updated biography or profile description for the user (optional).
+  profilePictureUri: String # Updated URI for the profile picture (optional).
+  profileBannerUri: String # Updated URI for the profile banner (optional).
+  gender: GenderType
+  accountVisibility: AccountVisibilityType
+  accountState: AccountStateType
+  verificationStatus: VerificationStatusType
+}
+
+"""
+Input for checking if a username is duplicate.
+"""
+input CheckDuplicateUserInput {
+  username: String! # Username to be checked for duplication.
+}
+
+"""
+Input for signing in a user with email and password.
+"""
+input SignInInput {
+  email: String # Email address of the user (optional, required if phone is not provided).
+  phone: String # Phone number of the user (optional, required if email is not provided).
+  password: String # Password of the user.
+  authMode: AuthMode! # Authentication mode used for sign-in.
+}
+
+
+# Queries
+type Query {
+  """
+  Retrieve a user by their username.
+  - `username`: Username of the user to retrieve.
+  """
+  user(username: String): User
+
+  """
+  Retrieve a list of all users.
+  """
+  users: [User!]
+
+  """
+  Check if a username is already taken.
+  - `input`: Input containing the username to check for duplication.
+  """
+  checkDuplicateUsername(input: CheckDuplicateUserInput!): CheckDuplicateUserResponse!
+}
+
+# Mutations
+type Mutation {
+  """
+  Create a new user.
+
+  - `input`: Input data for creating the new user.
+    - `fullName`: Full name of the new user (required).
+    - `username`: Unique username for the new user (required).
+    - `phone`: Phone number for the new user (optional, required if `authMode` is `PHONE_PASS`).
+    - `email`: Email address for the new user (optional, required if `authMode` is `EMAIL_PASS`, `GOOGLE`, `FACEBOOK`, or `APPLE`).
+    - `password`: Password for the new user (optional, required if `authMode` is `EMAIL_PASS` or `PHONE_PASS`).
+    - `authMode`: Authentication mode for creating the new user (required).
+
+    Authentication mode specifics:
+    - If `authMode` is `EMAIL_PASS`:
+      - Required fields: `email`, `password`, `username`, `fullName`, `authMode`.
+    - If `authMode` is `PHONE_PASS`:
+      - Required fields: `phone`, `password`, `username`, `fullName`, `authMode`.
+    - If `authMode` is `GOOGLE`, `FACEBOOK`, or `APPLE`:
+      - Required fields: `email`, `username`, `fullName`, `authMode`.
+  """
+  signUp(input: SignUpInput!): UserResponse!
+
+  """
+  Sign in a user using email and password.
+  - `input`: Input data for signing in the user.
+  """
+  signIn(input: SignInInput!): SignInResponse
+
+  """
+  Update an existing user.
+  - `input`: Input data for updating the user.
+  """
+  updateUser(input: UpdateUserInput!): UserResponse!
+
+  # mutation to follow, unfollow block users
+  updateUserConnection(input: UpdateUserConnectionInput!): UpdateUserConnectionResponse!
+}

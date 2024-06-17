@@ -1,0 +1,3 @@
+{
+    "include": ["src/*.ts", "src/**/*.ts", "migrations/*.ts"]
+}

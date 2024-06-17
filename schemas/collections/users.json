@@ -1,0 +1,126 @@
+{
+  "type": "object",
+  "title": "Users Collection",
+  "required": ["id", "username", "password"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "'id' must be a string and is required."
+    },
+    "username": {
+      "type": "string",
+      "description": "'username' must be a string and is required."
+    },
+    "fullName": {
+      "type": "string",
+      "description": "'fullName' must be a string."
+    },
+    "accountState": {
+      "type": "string",
+      "enum": ["ACTIVE", "INACTIVE", "SUSPENDED", "DELETED"],
+      "description": "'gender' must be a string indicating the user's gender."
+    },
+    "accountVisibility": {
+      "type": "string",
+      "enum": ["PUBLIC", "PRIVATE"],
+      "description": "'gender' must be a string indicating the user's gender."
+    },
+    "profilePicture": {
+      "type": "string",
+      "description": "'phone' must be a string in E.164 format including a country code (e.g., +1234567890)."
+    },
+    "profileBanner": {
+      "type": "string",
+      "description": "'phone' must be a string in E.164 format including a country code (e.g., +1234567890)."
+    },
+    "phone": {
+      "type": "string",
+      "description": "'phone' must be a string in E.164 format including a country code (e.g., +1234567890)."
+    },
+    "email": {
+      "type": "string",
+      "description": "'email' must be a valid email address."
+    },
+    "password": {
+      "type": "string",
+      "description": "'password' must be a string."
+    },
+    "bio": {
+      "type": "string",
+      "description": "'bio' must be a string."
+    },
+    "gender": {
+      "type": "string",
+      "enum": ["MALE", "FEMALE", "PREFER_NOT_SAY"],
+      "description": "'gender' must be a string indicating the user's gender."
+    },
+    "following": {
+      "type": "array",
+      "description": "'following' must be an array of achievement IDs.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "verificationStatus": {
+      "type": "string",
+      "enum": [
+        "VERIFIED_PLAYER",
+        "VERIFIED_COACH",
+        "VERIFIED_ESPORTS_PROFESSIONAL",
+        "UNVERIFIED_PLAYER",
+        "UNVERIFIED_COACH",
+        "UNVERIFIED_ESPORTS_PROFESSIONAL",
+        "ADMIN"
+      ],
+      "description": "'verificationStatus' must be a string."
+    },
+    "authMode": {
+      "type": "string",
+      "enum": ["EMAIL_PASS", "PHONE_PASS", "GOOGLE", "FACEBOOK", "APPLE"],
+      "description": "'authMode' must be a string."
+    },
+    "preferredGames": {
+      "type": "array",
+      "description": "'preferredGames' must be an array of game IDs.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "achievements": {
+      "type": "array",
+      "description": "'achievements' must be an array of achievement IDs.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "skills": {
+      "type": "array",
+      "description": "'skills' must be an array of skill IDs.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "highlights": {
+      "type": "array",
+      "description": "'highlights' must be an array of highlight IDs.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "teams": {
+      "type": "array",
+      "description": "'teams' must be an array of team IDs.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "createdAt": {
+      "type": "string",
+      "description": "'createdAt' must be a string."
+    },
+    "updatedAt": {
+      "type": "string",
+      "description": "'updatedAt' must be a string."
+    }
+  }
+}

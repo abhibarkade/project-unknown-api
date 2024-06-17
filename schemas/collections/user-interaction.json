@@ -1,0 +1,32 @@
+{
+  "type": "object",
+  "title": "User Interaction Collection",
+  "required": ["id", "actor", "target","actionType", "createdAt", "updatedAt"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the access token"
+    },
+    "actor": {
+      "type": "string",
+      "description": "The identifier of the user associated with the access token"
+    },
+    "target": {
+      "type": "string",
+      "description": "The actual token"
+    },
+    "actionType": {
+      "type": "string",
+      "enum": ["FOLLOW", "UNFOLLOW", "BLOCK"],
+      "description": "The status of the access token, which can be either ACTIVE or EXPIRED"
+    },
+    "createdAt": {
+      "type": "string",
+      "description": "The timestamp or date string indicating when the access token was created"
+    },
+    "updatedAt": {
+      "type": "string",
+      "description": "The timestamp or date string indicating when the access token was created"
+    }
+  }
+}
