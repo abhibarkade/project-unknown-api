@@ -11,7 +11,7 @@ export const restApiPlugin = fp(
         fastify.register(dbConnector)
         fastify.register(fastifyMultipart, {
             limits: {
-                fileSize: serverConfig.maxFileSize * 1024 * 1024
+                fileSize: serverConfig.media.maxFileSize * 1024 * 1024
             }
         })
         fastify.register(registerRoutes)

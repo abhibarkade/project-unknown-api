@@ -11,8 +11,8 @@ import {serverConfig} from '../../config'
  * @returns The generated JWT token.
  */
 export async function generateToken(db: Db, payload: TokenPayloadInput): Promise<string> {
-    const token = jwt.sign(payload, serverConfig.jwtSecreteKey, {
-        expiresIn: serverConfig.jwtExpirationTime,
+    const token = jwt.sign(payload, serverConfig.jwt.jwtSecreteKey, {
+        expiresIn: serverConfig.jwt.jwtExpirationTime,
         algorithm: 'HS256'
     })
     await createOrUpdateAccessToken(db, token, payload)
@@ -28,7 +28,7 @@ export async function verifyToken(db: Db, token: string): Promise<boolean> {
     try {
         const isActive = await checkAccessTokenIsValid(db, token)
         if (isActive) {
-            await jwt.verify(token, serverConfig.jwtSecreteKey)
+            await jwt.verify(token, serverConfig.jwt.jwtSecreteKey)
             return true
         }
         return false

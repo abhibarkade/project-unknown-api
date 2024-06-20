@@ -72,7 +72,7 @@ export const fastifyApolloPlugin = fp(
 
                         const isActive = await checkAccessTokenIsValid(db, token)
                         if (isActive) {
-                            jwt.verify(token, serverConfig.jwtSecreteKey)
+                            jwt.verify(token, serverConfig.jwt.jwtSecreteKey)
                             logger.info('Authorization token is valid.')
                             return {mongodb: db}
                         } else {
