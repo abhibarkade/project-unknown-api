@@ -1,6 +1,15 @@
 import {isNil} from 'ramda'
 import pino from 'pino'
 
+/**
+ * Parses an environment variable value or returns a default value if the variable is not set or invalid.
+ *
+ * @template T - The type of the value expected.
+ * @param {string | undefined} envValue - The environment variable value to be parsed.
+ * @param {T} defaultValue - The default value to use if the environment variable is not set or the parsed value is invalid.
+ * @param {(value: string) => T} parser - A function to parse the environment variable value.
+ * @returns {T} - The parsed value if valid, otherwise the default value.
+ */
 export const parseEnv = <T>(envValue: string | undefined, defaultValue: T, parser: (value: string) => T): T => {
     if (envValue) {
         const parsedValue = parser(envValue)
@@ -8,7 +17,6 @@ export const parseEnv = <T>(envValue: string | undefined, defaultValue: T, parse
     }
     return defaultValue
 }
-
 export const stringParser = (value: string): string => value
 
 export const serverConfig = {
