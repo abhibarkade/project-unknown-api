@@ -13,6 +13,11 @@ import {GridFSBucket, ObjectId} from 'mongodb'
 import {MediaType, RestParamsInput, User} from '../../generated/graphql'
 
 export async function registerRoutes(fastify: FastifyInstance): Promise<void> {
+    fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
+        logger.info(`Checking server status ${JSON.stringify(request.context)}`)
+        reply.send('Hello World!!')
+    })
+
     fastify.post('/upload/:userId/:mediaType', async (request: FastifyRequest, reply: FastifyReply) => {
         try {
             const {userId, mediaType} = request.params as RestParamsInput
