@@ -62,10 +62,13 @@ export type Achievement = {
 
 /** Enum representing authentication modes. */
 export enum AuthMode {
-  Apple = 'APPLE',
+  AppleEmail = 'APPLE_EMAIL',
+  ApplePhone = 'APPLE_PHONE',
   EmailPass = 'EMAIL_PASS',
-  Facebook = 'FACEBOOK',
-  Google = 'GOOGLE',
+  FacebookEmail = 'FACEBOOK_EMAIL',
+  FacebookPhone = 'FACEBOOK_PHONE',
+  GoogleEmail = 'GOOGLE_EMAIL',
+  GooglePhone = 'GOOGLE_PHONE',
   PhonePass = 'PHONE_PASS'
 }
 

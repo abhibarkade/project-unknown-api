@@ -80,7 +80,7 @@
     },
     "authMode": {
       "type": "string",
-      "enum": ["EMAIL_PASS", "PHONE_PASS", "GOOGLE", "FACEBOOK", "APPLE"],
+      "enum": ["EMAIL_PASS", "PHONE_PASS", "GOOGLE_PHONE", "GOOGLE_EMAIL", "FACEBOOK_PHONE", "FACEBOOK_EMAIL", "APPLE_PHONE","APPLE_EMAIL"],
       "description": "'authMode' must be a string."
     },
     "preferredGames": {
