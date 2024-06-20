@@ -2,7 +2,7 @@ import app from './app'
 
 import {logger, serverConfig} from './config'
 
-const {host, port} = serverConfig
+const {host, port} = serverConfig.fastify
 
 const startServer = async (): Promise<void> => {
     try {

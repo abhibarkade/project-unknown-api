@@ -9,7 +9,7 @@ import {serverConfig} from '../config'
  */
 async function dbConnector(fastify: FastifyInstance): Promise<void> {
     fastify.register(fastifyMongo, {
-        url: `${serverConfig.dbUri}${serverConfig.db}`,
+        url: `${serverConfig.db.dbUri}${serverConfig.db}`,
         forceClose: true
     })
 }
