@@ -71,10 +71,21 @@ export async function signup(context: ResolverContext, input: SignUpInput): Prom
         if (!input.password) throw new Error(ErrorCode.MISSING_PASSWORD)
         if (!isStrongPassword(input.password)) throw new Error(ErrorCode.WEAK_PASSWORD)
 
-        if (input.authMode === AuthMode.EmailPass || !input.authMode) {
+        if (
+            !input.authMode ||
+            input.authMode === AuthMode.EmailPass ||
+            input.authMode === AuthMode.GoogleEmail ||
+            input.authMode === AuthMode.FacebookEmail ||
+            input.authMode === AuthMode.AppleEmail
+        ) {
             if (!input.email) throw new Error(ErrorCode.MISSING_EMAIL)
             if (!isEmail(input.email)) throw new Error(ErrorCode.INVALID_EMAIL_FORMAT)
-        } else if (input.authMode === AuthMode.PhonePass) {
+        } else if (
+            input.authMode === AuthMode.PhonePass ||
+            input.authMode === AuthMode.GooglePhone ||
+            input.authMode === AuthMode.FacebookPhone ||
+            input.authMode === AuthMode.ApplePhone
+        ) {
             if (!input.phone) throw new Error(ErrorCode.MISSING_PHONE)
             if (!isMobilePhone(input.phone)) throw new Error(ErrorCode.INVALID_PHONE_FORMAT)
         }
@@ -86,7 +97,7 @@ export async function signup(context: ResolverContext, input: SignUpInput): Prom
         const id = uuid()
         const userDocument: UsersCollection = {
             id,
-            ...input,
+            authMode: input.authMode,
             fullName: input.fullName ?? '',
             username: input.username?.toLowerCase(),
             email: input.email?.toLowerCase(),
@@ -263,7 +274,11 @@ export async function signIn(context: ResolverContext, input: SignInInput): Prom
         }
         const token = await generateToken(context.mongodb, payload)
         return {success: !!token, context: token ? ErrorCode.TOKEN_GRANTED : ErrorCode.TOKEN_DENIED, token: token}
-    } else {
+    } else if (
+        input.authMode == AuthMode.GoogleEmail ||
+        input.authMode == AuthMode.FacebookEmail ||
+        input.authMode == AuthMode.AppleEmail
+    ) {
         if (!input.email) {
             logger.error(`Email is required for social-based sign-in.`)
             return {success: false, context: ErrorCode.MISSING_EMAIL}
@@ -276,7 +291,29 @@ export async function signIn(context: ResolverContext, input: SignInInput): Prom
             input.email
         )
         if (!user) throw Error(ErrorCode.INCORRECT_EMAIL)
-        if (user.authMode == AuthMode.EmailPass || user.authMode == AuthMode.PhonePass) {
+        if (user.authMode == AuthMode.EmailPass) {
+            return {success: false, context: ErrorCode.INVALID_USER_AUTH_MODE}
+        }
+        const payload: TokenPayloadInput = {
+            id: user.id,
+            createdAt: user.createdAt ?? `${user.createdAt}`
+        }
+        const token = await generateToken(context.mongodb, payload)
+        return {success: !!token, context: token ? ErrorCode.TOKEN_GRANTED : ErrorCode.TOKEN_DENIED, token: token}
+    } else {
+        if (!input.email) {
+            logger.error(`Phone is required for social-based sign-in.`)
+            return {success: false, context: ErrorCode.MISSING_PHONE}
+        }
+
+        const user = await fetchDocumentByField<UsersCollection>(
+            context.mongodb,
+            MongoCollection.USER,
+            'phone',
+            input.phone
+        )
+        if (!user) throw Error(ErrorCode.INCORRECT_PHONE)
+        if (user.authMode == AuthMode.PhonePass) {
             return {success: false, context: ErrorCode.INVALID_USER_AUTH_MODE}
         }
         const payload: TokenPayloadInput = {

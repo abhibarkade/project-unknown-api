@@ -31,9 +31,12 @@ Enum representing authentication modes.
 enum AuthMode {
   EMAIL_PASS # Email and password authentication.
   PHONE_PASS # Phone number and password authentication.
-  GOOGLE # Google authentication.
-  FACEBOOK # Facebook authentication.
-  APPLE # Apple authentication.
+  GOOGLE_PHONE # Google authentication.
+  GOOGLE_EMAIL # Google authentication.
+  FACEBOOK_PHONE # Facebook authentication.
+  FACEBOOK_EMAIL # Facebook authentication.
+  APPLE_PHONE # Apple authentication.
+  APPLE_EMAIL # Apple authentication.
 }
 
 """
