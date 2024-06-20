@@ -1,16 +1,8 @@
 {
-    "routes": [
+    "rewrites": [
         {
-            "src": "/graphql",
-            "dest": "/graphql"
-        },
-        {
-            "src": "/upload",
-            "dest": "/upload"
-        },
-        {
-            "src": "/download",
-            "dest": "/download"
+            "source": "/(.*)",
+            "destination": "/graphql"
         }
     ]
 }
