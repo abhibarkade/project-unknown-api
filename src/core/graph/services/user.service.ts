@@ -87,9 +87,12 @@ export async function signup(context: ResolverContext, input: SignUpInput): Prom
         const userDocument: UsersCollection = {
             id,
             ...input,
+            fullName: input.fullName ?? '',
             username: input.username?.toLowerCase(),
             email: input.email?.toLowerCase(),
             phone: input.phone?.toLowerCase(),
+            bio: '',
+            birthday: input.birthday ?? '',
             password: await hash(input.password ?? id, bcryptConfig.saltRounds),
             gender: input?.gender ?? GenderType.PreferNotSay,
             accountState: AccountStateType.Active,

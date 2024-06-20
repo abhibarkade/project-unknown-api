@@ -153,6 +153,7 @@ type User {
   accountVisibility: AccountVisibilityType!
   profilePicture: String
   profileBanner: String
+  birthday: String
   phone: String # Phone number of the user (optional).
   email: String # Email address of the user (optional).
   password: String! # Password for the user account.
@@ -168,8 +169,6 @@ type User {
   createdAt: DateTime # Date and time when the user account was created.
   updatedAt: DateTime # Date and time when the user account was last updated.
 }
-
-
 
 """
 Represents an access token for authentication.
@@ -242,6 +241,7 @@ input SignUpInput {
   email: String # Email address for the new user (optional).
   password: String # Password for the new user.
   gender: GenderType
+  birthday: String
   authMode: AuthMode! # Authmode for creating or signing-up the new user.
 }
 
@@ -255,6 +255,7 @@ input UpdateUserInput {
   phone: String # Updated phone number for the user (optional).
   email: String # Updated email address for the user (optional).
   password: String # Updated password for the user (optional).
+  birthday: String
   bio: String # Updated biography or profile description for the user (optional).
   profilePictureUri: String # Updated URI for the profile picture (optional).
   profileBannerUri: String # Updated URI for the profile banner (optional).

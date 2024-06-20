@@ -40,6 +40,7 @@ export interface UsersCollection {
    * 'phone' must be a string in E.164 format including a country code (e.g., +1234567890).
    */
   profileBanner?: string;
+  birthday?: string;
   /**
    * 'phone' must be a string in E.164 format including a country code (e.g., +1234567890).
    */
